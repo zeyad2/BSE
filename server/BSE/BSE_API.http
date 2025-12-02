@@ -1,0 +1,403 @@
+### BSE API Test Requests
+### Use this file with VS Code REST Client extension or IntelliJ/Rider HTTP Client
+
+@baseUrl = https://localhost:7197
+@contentType = application/json
+
+### Variables (update these with actual values after testing)
+@token =
+@blogId = 1
+@userId = 1
+
+###############################################
+### AUTHENTICATION ENDPOINTS
+###############################################
+
+### 1. Sign Up - Create New User Account
+POST {{baseUrl}}/api/auth/signup
+Content-Type: {{contentType}}
+
+{
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "fullName": "John Doe",
+  "role": "User"
+}
+
+### 2. Sign Up - Create Admin Account
+POST {{baseUrl}}/api/auth/signup
+Content-Type: {{contentType}}
+
+{
+  "email": "admin@example.com",
+  "password": "adminpass123",
+  "fullName": "Admin User",
+  "role": "Admin"
+}
+
+### 3. Sign In - Get JWT Token
+# @name signin
+POST {{baseUrl}}/api/auth/signin
+Content-Type: {{contentType}}
+
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+
+### 4. Sign In - Admin Login
+# @name signinAdmin
+POST {{baseUrl}}/api/auth/signin
+Content-Type: {{contentType}}
+
+{
+  "email": "admin@example.com",
+  "password": "adminpass123"
+}
+
+### 5. Sign Up - Invalid Email (Should Fail)
+POST {{baseUrl}}/api/auth/signup
+Content-Type: {{contentType}}
+
+{
+  "email": "invalid-email",
+  "password": "password123",
+  "fullName": "Test User",
+  "role": "User"
+}
+
+### 6. Sign Up - Weak Password (Should Fail)
+POST {{baseUrl}}/api/auth/signup
+Content-Type: {{contentType}}
+
+{
+  "email": "test@example.com",
+  "password": "123",
+  "fullName": "Test User",
+  "role": "User"
+}
+
+### 7. Sign In - Wrong Password (Should Fail)
+POST {{baseUrl}}/api/auth/signin
+Content-Type: {{contentType}}
+
+{
+  "email": "john.doe@example.com",
+  "password": "wrongpassword"
+}
+
+###############################################
+### BLOG ENDPOINTS
+###############################################
+
+### 8. Get All Blogs (Public Access - No Auth Required)
+GET {{baseUrl}}/api/blogs
+
+### 9. Get All Blogs with Pagination
+GET {{baseUrl}}/api/blogs?page=1&pageSize=5
+
+### 10. Get All Blogs - Page 2
+GET {{baseUrl}}/api/blogs?page=2&pageSize=10
+
+### 11. Get Single Blog by ID (Public Access)
+GET {{baseUrl}}/api/blogs/{{blogId}}
+
+### 12. Get Non-Existent Blog (Should Return 404)
+GET {{baseUrl}}/api/blogs/999999
+
+### 13. Create Blog Post (Requires Auth)
+# Note: Copy the token from sign in response and paste it above in @token variable
+POST {{baseUrl}}/api/blogs
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+My First Blog Post
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+This is the content of my first blog post. It contains some interesting information about clean code practices and ASP.NET Core development.
+
+In this blog, I'll cover:
+1. Clean architecture principles
+2. Dependency injection
+3. RESTful API design
+4. Authentication and authorization
+
+Stay tuned for more content!
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 14. Create Blog Post with Image (Requires Auth)
+# Note: Update the file path to point to an actual image on your system
+POST {{baseUrl}}/api/blogs
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+Blog Post with Images
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+This blog post includes beautiful images to illustrate the concepts.
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Images"; filename="image1.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/image1.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Images"; filename="image2.png"
+Content-Type: image/png
+
+< ./path/to/your/image2.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 15. Create Blog Post Without Auth (Should Fail with 401)
+POST {{baseUrl}}/api/blogs
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+Unauthorized Blog Post
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+This should fail because no auth token is provided.
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 16. Update Blog Post (Requires Auth - Author or Admin)
+PUT {{baseUrl}}/api/blogs/{{blogId}}
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+Updated Blog Post Title
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+This is the updated content for my blog post. I've made several improvements and added new sections.
+
+New content includes:
+- Updated examples
+- More detailed explanations
+- Additional resources
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 17. Update Blog Post with New Images
+PUT {{baseUrl}}/api/blogs/{{blogId}}
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+Updated with New Images
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+Added new images to enhance the blog post.
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="NewImages"; filename="new-image.jpg"
+Content-Type: image/jpeg
+
+< ./path/to/your/new-image.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 18. Update Someone Else's Blog (Should Fail with 403 if not Admin)
+PUT {{baseUrl}}/api/blogs/2
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+Trying to Update Another User's Blog
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+This should fail if I'm not the author or an admin.
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 19. Delete Blog Post (Requires Auth - Author or Admin)
+DELETE {{baseUrl}}/api/blogs/{{blogId}}
+Authorization: Bearer {{token}}
+
+### 20. Delete Someone Else's Blog (Should Fail with 403 if not Admin)
+DELETE {{baseUrl}}/api/blogs/2
+Authorization: Bearer {{token}}
+
+### 21. Delete Non-Existent Blog (Should Return 404)
+DELETE {{baseUrl}}/api/blogs/999999
+Authorization: Bearer {{token}}
+
+###############################################
+### VALIDATION TESTS
+###############################################
+
+### 22. Create Blog with Empty Title (Should Fail)
+POST {{baseUrl}}/api/blogs
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+This blog has no title and should fail validation.
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 23. Create Blog with Title Too Long (Should Fail)
+POST {{baseUrl}}/api/blogs
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+This is a very long title that exceeds 200 characters. This is a very long title that exceeds 200 characters. This is a very long title that exceeds 200 characters. This is a very long title that exceeds 200 characters.
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+Content here.
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 24. Create Blog with Empty Content (Should Fail)
+POST {{baseUrl}}/api/blogs
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+Blog with No Content
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###############################################
+### ADMIN SCENARIOS
+###############################################
+
+### 25. Admin Updates Any User's Blog
+# First sign in as admin and use that token
+PUT {{baseUrl}}/api/blogs/{{blogId}}
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+Admin Updated This Blog
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+An admin can update any user's blog post.
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 26. Admin Deletes Any User's Blog
+DELETE {{baseUrl}}/api/blogs/{{blogId}}
+Authorization: Bearer {{token}}
+
+###############################################
+### PAGINATION SCENARIOS
+###############################################
+
+### 27. Get Blogs - First Page with 5 Items
+GET {{baseUrl}}/api/blogs?page=1&pageSize=5
+
+### 28. Get Blogs - Invalid Page Number (Should Default to 1)
+GET {{baseUrl}}/api/blogs?page=0&pageSize=10
+
+### 29. Get Blogs - Excessive Page Size (Should Cap at 100)
+GET {{baseUrl}}/api/blogs?page=1&pageSize=1000
+
+### 30. Get Blogs - No Pagination Parameters (Should Use Defaults)
+GET {{baseUrl}}/api/blogs
+
+###############################################
+### ERROR SCENARIOS
+###############################################
+
+### 31. Access Protected Endpoint with Invalid Token
+POST {{baseUrl}}/api/blogs
+Authorization: Bearer invalid_token_here
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+Test
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+Test content
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### 32. Access Protected Endpoint with Expired Token
+# Use an old/expired token
+POST {{baseUrl}}/api/blogs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Title"
+
+Test
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Content"
+
+Test content
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###############################################
+### NOTES
+###############################################
+
+# How to use this file:
+# 1. Install REST Client extension in VS Code
+# 2. Run the BSE API project (dotnet run)
+# 3. Execute requests by clicking "Send Request" above each request
+# 4. Update @token variable with the token from sign-in response
+# 5. Update @blogId with an actual blog ID from your database
+
+# For file uploads:
+# - Replace ./path/to/your/image.jpg with actual image paths
+# - Supported formats: .jpg, .jpeg, .png, .gif, .webp
+# - Max file size: 5 MB per image
+# - Max total request size: 10 MB
+
+# Testing workflow:
+# 1. Sign up a new user (#1)
+# 2. Sign in to get token (#3)
+# 3. Copy token to @token variable at the top
+# 4. Create a blog post (#13 or #14)
+# 5. Get all blogs to see your post (#8)
+# 6. Update your blog post (#16)
+# 7. Delete your blog post (#19)
+
+# Admin testing workflow:
+# 1. Sign up an admin account (#2)
+# 2. Sign in as admin (#4)
+# 3. Copy admin token to @token variable
+# 4. Test admin privileges (#25, #26)
+
+# Testing file uploads:
+# For actual file uploads, you may need to use Postman, Insomnia, or curl:
+#
+# curl -X POST https://localhost:7197/api/blogs \
+#   -H "Authorization: Bearer YOUR_TOKEN" \
+#   -F "Title=My Blog Post" \
+#   -F "Content=Blog content here" \
+#   -F "Images=@/path/to/image1.jpg" \
+#   -F "Images=@/path/to/image2.png"
