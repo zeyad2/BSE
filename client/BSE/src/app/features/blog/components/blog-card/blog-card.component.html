@@ -1,0 +1,43 @@
+<article class="group bg-slate-800 rounded-xl overflow-hidden border border-slate-700
+                hover:border-violet-500 transition-all duration-300 hover:shadow-xl hover:shadow-violet-500/10">
+
+  <!-- Blog Image (if exists) -->
+  @if (blog().images.length > 0) {
+    <div class="aspect-video overflow-hidden bg-slate-700">
+      <img
+        [src]="blog().images[0].url"
+        [alt]="blog().images[0].altText"
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        loading="lazy"
+      />
+    </div>
+  }
+
+  <!-- Card Content -->
+  <div class="p-6">
+    <!-- Title -->
+    <h3 class="text-xl font-semibold text-slate-100 mb-2 group-hover:text-violet-400 transition-colors">
+      {{ blog().title }}
+    </h3>
+
+    <!-- Excerpt -->
+    <p class="text-slate-400 text-sm mb-4 line-clamp-3">
+      {{ blog().excerpt }}
+    </p>
+
+    <!-- Footer: Author + Read More Link -->
+    <div class="flex items-center justify-between">
+      <span class="text-sm text-slate-500">
+        By {{ blog().authorName }}
+      </span>
+
+      <!-- RouterLink for client-side navigation -->
+      <a
+        [routerLink]="['/blog', blog().id]"
+        class="text-violet-400 hover:text-violet-300 text-sm font-medium transition-colors"
+      >
+        Read more →
+      </a>
+    </div>
+  </div>
+</article>

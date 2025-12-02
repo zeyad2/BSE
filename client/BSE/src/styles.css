@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+/* Dark Theme Design Tokens */
+:root {
+  /* Brand Colors - Using RGB for Tailwind compatibility */
+  --color-primary: 139 92 246;      /* violet-500 */
+  --color-accent: 236 72 153;       /* pink-500 */
+  --color-brand-orange: 246 160 41; /* #F6A029 - BSE Brand Orange */
+
+  /* Backgrounds */
+  --color-bg-primary: 15 23 42;     /* slate-900 */
+  --color-bg-secondary: 30 41 59;   /* slate-800 */
+  --color-bg-card: 51 65 85;        /* slate-700 */
+
+  /* Text Colors */
+  --color-text-primary: 248 250 252; /* slate-50 */
+  --color-text-secondary: 226 232 240; /* slate-200 */
+  --color-text-muted: 148 163 184;   /* slate-400 */
+
+  /* Border Colors */
+  --color-border-default: 71 85 105; /* slate-600 */
+  --color-border-hover: 139 92 246;  /* violet-500 */
+}
+
+/* Apply dark theme to body */
+body {
+  background-color: rgb(var(--color-bg-primary));
+  color: rgb(var(--color-text-primary));
+  min-height: 100vh;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(var(--color-bg-secondary));
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--color-border-default));
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--color-primary));
+}

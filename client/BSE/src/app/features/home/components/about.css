@@ -1,0 +1,421 @@
+/* About Section - Creative Split Layout Design */
+
+/* Keyframe Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(80px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes rotateGlow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(246, 160, 41, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(246, 160, 41, 0.8);
+  }
+}
+
+/* Header */
+.about-header-line {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent 0%, #F6A029 50%, transparent 100%);
+  margin: 1.5rem auto 0;
+  border-radius: 2px;
+  box-shadow: 0 0 20px rgba(246, 160, 41, 0.5);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Row Layout */
+.about-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  margin-bottom: 6rem;
+  position: relative;
+}
+
+.about-row.reverse {
+  direction: rtl;
+}
+
+.about-row.reverse > * {
+  direction: ltr;
+}
+
+/* Visual Column */
+.about-visual-column {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 350px;
+  opacity: 0;
+  transform: translateX(-80px);
+}
+
+.about-row.reverse .about-visual-column {
+  transform: translateX(80px);
+}
+
+.about-row.animate-on-scroll .about-visual-column {
+  animation: fadeInLeft 1s ease-out forwards;
+}
+
+.about-row.reverse.animate-on-scroll .about-visual-column {
+  animation: fadeInRight 1s ease-out forwards;
+}
+
+/* Text Column */
+.about-text-column {
+  position: relative;
+  padding: 2rem 0;
+  opacity: 0;
+  transform: translateX(80px);
+}
+
+.about-row.reverse .about-text-column {
+  transform: translateX(-80px);
+}
+
+.about-row.animate-on-scroll .about-text-column {
+  animation: fadeInRight 1s ease-out 0.2s forwards;
+}
+
+.about-row.reverse.animate-on-scroll .about-text-column {
+  animation: fadeInLeft 1s ease-out 0.2s forwards;
+}
+
+.about-visual-box {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2rem;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Different color schemes for each section */
+.vision-box {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%);
+  border: 2px solid rgba(59, 130, 246, 0.2);
+  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.15);
+}
+
+.mission-box {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(147, 51, 234, 0.05) 100%);
+  border: 2px solid rgba(168, 85, 247, 0.2);
+  box-shadow: 0 20px 60px rgba(168, 85, 247, 0.15);
+}
+
+.benefits-box {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(22, 163, 74, 0.05) 100%);
+  border: 2px solid rgba(34, 197, 94, 0.2);
+  box-shadow: 0 20px 60px rgba(34, 197, 94, 0.15);
+}
+
+.about-row:hover .vision-box {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 30px 80px rgba(59, 130, 246, 0.25);
+}
+
+.about-row:hover .mission-box {
+  transform: scale(1.05) rotate(-2deg);
+  box-shadow: 0 30px 80px rgba(168, 85, 247, 0.25);
+}
+
+.about-row:hover .benefits-box {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 30px 80px rgba(34, 197, 94, 0.25);
+}
+
+/* Icon Large */
+.visual-icon-large {
+  position: relative;
+  z-index: 2;
+  color: #F6A029;
+  filter: drop-shadow(0 10px 30px rgba(246, 160, 41, 0.4));
+  transition: all 0.6s ease;
+}
+
+.about-row:hover .visual-icon-large {
+  transform: scale(1.1) translateY(-10px);
+  filter: drop-shadow(0 20px 40px rgba(246, 160, 41, 0.6));
+}
+
+/* Animated Pattern Background */
+.visual-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(246, 160, 41, 0.03) 20px, rgba(246, 160, 41, 0.03) 40px),
+    repeating-linear-gradient(-45deg, transparent, transparent 20px, rgba(255, 255, 255, 0.02) 20px, rgba(255, 255, 255, 0.02) 40px);
+  opacity: 0.5;
+  transition: opacity 0.6s ease;
+}
+
+.about-row:hover .visual-pattern {
+  opacity: 1;
+}
+
+/* Text Column */
+.about-text-column {
+  position: relative;
+  padding: 2rem 0;
+}
+
+.section-badge {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #F6A029;
+  background: rgba(246, 160, 41, 0.1);
+  border: 2px solid rgba(246, 160, 41, 0.3);
+  padding: 0.5rem 1.25rem;
+  border-radius: 2rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.about-row:hover .section-badge {
+  background: rgba(246, 160, 41, 0.2);
+  border-color: rgba(246, 160, 41, 0.5);
+  transform: translateX(8px);
+}
+
+.about-section-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  transition: all 0.3s ease;
+}
+
+.about-row:hover .about-section-title {
+  color: #F6A029;
+}
+
+.about-text-highlight {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #F6A029;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+.about-section-text {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: #cbd5e1;
+  max-width: 600px;
+  transition: color 0.3s ease;
+}
+
+.about-row:hover .about-section-text {
+  color: #e2e8f0;
+}
+
+/* Benefits List */
+.benefits-list {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(90deg, rgba(246, 160, 41, 0.08) 0%, transparent 100%);
+  border-left: 3px solid #F6A029;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  font-size: 1.0625rem;
+  color: #cbd5e1;
+}
+
+.benefit-item:hover {
+  background: linear-gradient(90deg, rgba(246, 160, 41, 0.15) 0%, rgba(246, 160, 41, 0.05) 100%);
+  transform: translateX(8px);
+  border-left-width: 4px;
+}
+
+.benefit-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #F6A029 0%, #d88b1e 100%);
+  color: white;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 1.125rem;
+  box-shadow: 0 4px 12px rgba(246, 160, 41, 0.3);
+  transition: all 0.3s ease;
+}
+
+.benefit-item:hover .benefit-icon {
+  transform: scale(1.1) rotate(360deg);
+  box-shadow: 0 6px 20px rgba(246, 160, 41, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .about-row {
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+
+  .about-section-title {
+    font-size: 2rem;
+  }
+
+  .about-text-highlight {
+    font-size: 1.125rem;
+  }
+
+  .about-section-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-row {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .about-row.reverse {
+    direction: ltr;
+  }
+
+  .about-visual-column {
+    min-height: 280px;
+  }
+
+  .about-visual-box {
+    max-width: 300px;
+  }
+
+  .about-section-title {
+    font-size: 1.75rem;
+  }
+
+  .about-text-highlight {
+    font-size: 1rem;
+  }
+
+  .about-section-text {
+    font-size: 0.9375rem;
+  }
+
+  .benefit-item {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .benefit-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 1rem;
+  }
+
+  .section-badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-visual-box {
+    max-width: 250px;
+  }
+
+  .about-section-title {
+    font-size: 1.5rem;
+  }
+
+  .visual-icon-large svg {
+    width: 3rem;
+    height: 3rem;
+  }
+}

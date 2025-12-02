@@ -1,0 +1,11 @@
+/*
+ * Line clamp utility - truncate text after 3 lines
+ * Not in Tailwind by default (yet)
+ * Uses -webkit-box for cross-browser support
+ */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

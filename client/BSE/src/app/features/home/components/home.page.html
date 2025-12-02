@@ -1,0 +1,209 @@
+<app-particle-background />
+
+
+<div class="min-h-screen bg-slate-900">
+    <!-- Hero Section -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden" id="home">
+        
+        <app-hero></app-hero>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-slate-900 scroll-animate" #servicesSection>
+        
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partners" class="py-20 bg-slate-900 animate-on-scroll">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <p class="text-[#F6A029] font-semibold mb-2 animate-on-scroll">TRUSTED BY</p>
+                <div class="w-12 h-1 bg-[#F6A029] mx-auto mb-4"></div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 animate-on-scroll animation-delay-100">
+                    Our Partners
+                </h2>
+                <p class="text-slate-400 text-lg max-w-3xl mx-auto animate-on-scroll animation-delay-200">
+                    We collaborate with industry-leading companies to deliver exceptional solutions
+                </p>
+            </div>
+
+            <div class="max-w-6xl mx-auto">
+                <p-carousel [value]="PARTNERS" [numVisible]="4" [numScroll]="1" [circular]="true"
+                    [autoplayInterval]="3000" [responsiveOptions]="RESPONSIVE_OPTIONS">
+                    <ng-template let-partner #item>
+                        <div class="px-4 py-8">
+                            <div
+                                class="bg-slate-800/50 border border-slate-700 rounded-xl p-8 hover:border-[#F6A029] transition-all h-40 flex items-center justify-center">
+                                <img [src]="partner.logo" [alt]="partner.name"
+                                    class="max-w-full max-h-24 object-contain grayscale hover:grayscale-0 transition-all opacity-70 hover:opacity-100" />
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-carousel>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-20 bg-slate-800/30">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center ml-5">
+                <div class="animate-on-scroll">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                        Why Choose BSE?
+                    </h2>
+                    <div class="space-y-4">
+                        @for (benefit of benefits; track benefit; let idx = $index) {
+                        <div class="flex items-start gap-3 animate-on-scroll"
+                            [style.animation-delay]="(100 + idx * 100) + 'ms'">
+                            <div class="text-[#F6A029] text-2xl">✓</div>
+                            <div>
+                                <h3 class="text-white font-semibold mb-1">{{ benefit.title }}</h3>
+                                <p class="text-slate-400">{{ benefit.description }}</p>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <div
+                    class="bg-gradient-to-br from-[#F6A029]/10 to-violet-600/10 rounded-2xl p-8 border border-[#F6A029]/20 animate-on-scroll animation-delay-200">
+                    <div class="grid grid-cols-2 gap-6">
+                        @for (stat of stats; track stat.value; let idx = $index) {
+                        <div class="text-center animate-on-scroll" [style.animation-delay]="(400 + idx * 100) + 'ms'">
+                            <div class="text-4xl font-bold text-[#F6A029] mb-2">{{ stat.value }}</div>
+                            <div class="text-slate-400">{{ stat.label }}</div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-slate-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <p class="text-[#F6A029] font-semibold mb-2 animate-on-scroll">Business Systems Engineering</p>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 animate-on-scroll animation-delay-100">
+                    About <span class="text-[#F6A029]">BSE</span>
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                @for (aboutItem of aboutItems; track aboutItem.title; let idx = $index) {
+                <div class="about-card group animate-on-scroll" [style.animation-delay]="(200 + idx * 100) + 'ms'">
+                    <div class="about-card-inner">
+                        <div class="about-card-glow"></div>
+
+                        <!-- Icon with 3D effect -->
+                        <div class="about-icon-wrapper">
+                            <div class="about-icon">
+                                @if (idx === 0) {
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                                }
+                                @if (idx === 1) {
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                }
+                                @if (idx === 2) {
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                                </svg>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="about-content">
+                            <h3 class="about-title">
+                                {{ aboutItem.title }}
+                            </h3>
+                            <div class="about-divider"></div>
+                            <p class="about-description">{{ aboutItem.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-20 bg-slate-800/30">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <p class="text-slate-400 font-semibold mb-2 animate-on-scroll">CLIENTS</p>
+                <div class="w-12 h-1 bg-[#F6A029] mx-auto mb-4"></div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 animate-on-scroll animation-delay-100">
+                    Testimonials
+                </h2>
+                <p class="text-slate-400 text-lg max-w-3xl mx-auto animate-on-scroll animation-delay-200">
+                    The satisfaction of our customers is the standard of our success, and their criticism is our
+                    motivation for development
+                </p>
+            </div>
+
+            <div class="flex gap-8  justify-center overflow-hidden " >
+                <p-carousel [value]="testimonials" [numVisible]="3" [circular]="true" [autoplayInterval]="3000"
+                    [responsiveOptions]="RESPONSIVE_OPTIONS">
+                    <ng-template let-testimonials #item>
+                    <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-6 hover:border-[#F6A029] transition-all animate-on-scroll h-[270px] mx-3">
+                        <div class="mb-6">
+                            <div class="flex gap-1 mb-4">
+                                @for (star of [1,2,3,4,5]; track star) {
+                                <span class="text-[#F6A029] text-xl">★</span>
+                                }
+                            </div>
+                            <p class="text-slate-300 leading-relaxed italic">{{ testimonials.text }}</p>
+                        </div>
+                        <div class="flex items-center gap-4 pt-6 border-t border-slate-700">
+                            <div
+                                class="w-12 h-12 rounded-full bg-[#F6A029]/20 flex items-center justify-center text-[#F6A029] font-bold text-xl">
+                                {{ testimonials.name.charAt(0) }}
+                            </div>
+                            <div>
+                                <h4 class="text-white font-semibold">{{ testimonials.name }}</h4>
+                                <p class="text-slate-400 text-sm">{{ testimonials.position }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    </ng-template>
+
+                </p-carousel>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog/Insights Section -->
+    <section class="py-20 bg-slate-900">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4 animate-on-scroll">
+                    Latest Insights
+                </h2>
+                <p class="text-slate-400 text-lg animate-on-scroll animation-delay-100">
+                    Stay updated with industry trends and best practices
+                </p>
+            </div>
+
+            <div class="text-center animate-on-scroll animation-delay-200">
+                <a routerLink="/blog"
+                    class="inline-flex items-center gap-2 px-8 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-lg transition-colors">
+                    View All Articles
+                    <span>→</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</div>

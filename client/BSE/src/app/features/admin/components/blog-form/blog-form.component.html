@@ -1,0 +1,173 @@
+<form [formGroup]="blogForm" (ngSubmit)="onSubmit()" class="space-y-6">
+  <!-- Title Field -->
+  <div>
+    <label for="title" class="block text-sm font-medium text-slate-300 mb-2">
+      Blog Title *
+    </label>
+    <input
+      id="title"
+      type="text"
+      formControlName="title"
+      class="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg
+             text-slate-100 placeholder-slate-500
+             focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500
+             transition-colors"
+      placeholder="Enter blog title"
+    />
+    @if (blogForm.get('title')?.touched && blogForm.get('title')?.errors) {
+      <div class="mt-1">
+        @if (blogForm.get('title')?.errors?.['required']) {
+          <p class="text-sm text-red-400">Title is required</p>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Content Field -->
+  <div>
+    <label for="content" class="block text-sm font-medium text-slate-300 mb-2">
+      Content *
+    </label>
+    <textarea
+      id="content"
+      formControlName="content"
+      rows="12"
+      class="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg
+             text-slate-100 placeholder-slate-500
+             focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500
+             transition-colors resize-none"
+      placeholder="Write your blog content here..."
+    ></textarea>
+    @if (blogForm.get('content')?.touched && blogForm.get('content')?.errors) {
+      <div class="mt-1">
+        @if (blogForm.get('content')?.errors?.['required']) {
+          <p class="text-sm text-red-400">Content is required</p>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Image Upload Field -->
+  <div>
+    <label for="images" class="block text-sm font-medium text-slate-300 mb-2">
+      Images (Optional)
+    </label>
+    <div class="border-2 border-dashed border-slate-600 rounded-lg p-6 text-center
+                hover:border-violet-500 transition-colors cursor-pointer"
+         (click)="fileInput.click()">
+      <input
+        #fileInput
+        type="file"
+        accept="image/jpeg,image/png,image/gif,image/webp"
+        multiple
+        (change)="onFileSelected($event)"
+        class="hidden"
+      />
+
+      @if (selectedFiles.length === 0) {
+        <div>
+          <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <p class="mt-2 text-sm text-slate-400">
+            Click to upload images or drag and drop
+          </p>
+          <p class="text-xs text-slate-500 mt-1">
+            JPG, PNG, GIF, WEBP up to 5MB each
+          </p>
+        </div>
+      } @else {
+        <div>
+          <p class="text-sm text-slate-300">
+            {{ selectedFiles.length }} file(s) selected
+          </p>
+          <button
+            type="button"
+            (click)="clearFiles($event)"
+            class="mt-2 text-sm text-violet-400 hover:text-violet-300"
+          >
+            Clear selection
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- File List -->
+    @if (selectedFiles.length > 0) {
+      <div class="mt-4 space-y-2">
+        @for (file of selectedFiles; track $index) {
+          <div class="flex items-center justify-between bg-slate-900 p-3 rounded-lg">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              <div>
+                <p class="text-sm text-slate-300">{{ file.name }}</p>
+                <p class="text-xs text-slate-500">{{ formatFileSize(file.size) }}</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              (click)="removeFile($index)"
+              class="text-red-400 hover:text-red-300"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Existing Images (Edit Mode) -->
+  @if (blog() && blog()!.images.length > 0) {
+    <div>
+      <label class="block text-sm font-medium text-slate-300 mb-2">
+        Current Images
+      </label>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        @for (image of blog()!.images; track image.id) {
+          <div class="relative aspect-video rounded-lg overflow-hidden bg-slate-900">
+            <img
+              [src]="image.url"
+              [alt]="image.altText"
+              class="w-full h-full object-cover"
+            />
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Form Actions -->
+  <div class="flex gap-4 pt-4">
+    <button
+      type="submit"
+      [disabled]="isLoading() || blogForm.invalid"
+      class="flex-1 px-6 py-3 bg-violet-600 text-white rounded-lg font-semibold
+             hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed
+             transition-colors flex items-center justify-center gap-2"
+    >
+      @if (isLoading()) {
+        <app-loading-spinner [size]="20" containerClass="" />
+        <span>{{ blog() ? 'Updating...' : 'Creating...' }}</span>
+      } @else {
+        <span>{{ blog() ? 'Update Post' : 'Create Post' }}</span>
+      }
+    </button>
+
+    <button
+      type="button"
+      (click)="onCancel()"
+      [disabled]="isLoading()"
+      class="px-6 py-3 bg-slate-700 text-slate-200 rounded-lg font-semibold
+             hover:bg-slate-600 disabled:opacity-50 transition-colors"
+    >
+      Cancel
+    </button>
+  </div>
+</form>

@@ -1,0 +1,168 @@
+<div class="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12">
+  <div class="w-full max-w-md">
+    <!-- Card Container -->
+    <div class="bg-slate-800 rounded-xl border border-slate-700 p-8">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-slate-100 mb-2">Create Account</h1>
+        <p class="text-slate-400">Join our blog community</p>
+      </div>
+
+      <!-- Sign Up Form -->
+      <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+        <!-- Full Name Field -->
+        <div class="mb-4">
+          <label for="fullName" class="block text-sm font-medium text-slate-300 mb-2">
+            Full Name
+          </label>
+          <input
+            id="fullName"
+            type="text"
+            formControlName="fullName"
+            class="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg
+                   text-slate-100 placeholder-slate-500
+                   focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500
+                   transition-colors"
+            placeholder="John Doe"
+          />
+          @if (signUpForm.get('fullName')?.touched && signUpForm.get('fullName')?.errors) {
+            <div class="mt-1">
+              @if (signUpForm.get('fullName')?.errors?.['required']) {
+                <p class="text-sm text-red-400">Full name is required</p>
+              }
+              @if (signUpForm.get('fullName')?.errors?.['minlength']) {
+                <p class="text-sm text-red-400">Name must be at least 2 characters</p>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Email Field -->
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-medium text-slate-300 mb-2">
+            Email Address
+          </label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg
+                   text-slate-100 placeholder-slate-500
+                   focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500
+                   transition-colors"
+            placeholder="you@example.com"
+          />
+          @if (signUpForm.get('email')?.touched && signUpForm.get('email')?.errors) {
+            <div class="mt-1">
+              @if (signUpForm.get('email')?.errors?.['required']) {
+                <p class="text-sm text-red-400">Email is required</p>
+              }
+              @if (signUpForm.get('email')?.errors?.['email']) {
+                <p class="text-sm text-red-400">Please enter a valid email</p>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Password Field -->
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium text-slate-300 mb-2">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg
+                   text-slate-100 placeholder-slate-500
+                   focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500
+                   transition-colors"
+            placeholder="••••••••"
+          />
+          @if (signUpForm.get('password')?.touched && signUpForm.get('password')?.errors) {
+            <div class="mt-1">
+              @if (signUpForm.get('password')?.errors?.['required']) {
+                <p class="text-sm text-red-400">Password is required</p>
+              }
+              @if (signUpForm.get('password')?.errors?.['minlength']) {
+                <p class="text-sm text-red-400">Password must be at least 6 characters</p>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="mb-4">
+          <label for="confirmPassword" class="block text-sm font-medium text-slate-300 mb-2">
+            Confirm Password
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            class="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg
+                   text-slate-100 placeholder-slate-500
+                   focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500
+                   transition-colors"
+            placeholder="••••••••"
+          />
+          @if (signUpForm.get('confirmPassword')?.touched && signUpForm.get('confirmPassword')?.errors) {
+            <div class="mt-1">
+              @if (signUpForm.get('confirmPassword')?.errors?.['required']) {
+                <p class="text-sm text-red-400">Please confirm your password</p>
+              }
+            </div>
+          }
+          <!-- Password Mismatch Error (form-level validation) -->
+          @if (signUpForm.errors?.['passwordMismatch'] && signUpForm.get('confirmPassword')?.touched) {
+            <p class="text-sm text-red-400 mt-1">Passwords do not match</p>
+          }
+        </div>
+
+        <!-- Role Field -->
+        <div class="mb-6">
+          <label for="role" class="block text-sm font-medium text-slate-300 mb-2">
+            Role
+          </label>
+          <select
+            id="role"
+            formControlName="role"
+            class="w-full px-4 py-2 bg-slate-900 border border-slate-600 rounded-lg
+                   text-slate-100
+                   focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500
+                   transition-colors"
+          >
+            <option value="User">User</option>
+            <option value="Admin">Admin</option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          [disabled]="authService.isLoading() || signUpForm.invalid"
+          class="w-full px-4 py-3 bg-violet-600 text-white rounded-lg font-semibold
+                 hover:bg-violet-500 disabled:opacity-50 disabled:cursor-not-allowed
+                 transition-colors flex items-center justify-center gap-2"
+        >
+          @if (authService.isLoading()) {
+            <app-loading-spinner [size]="20" containerClass="" />
+            <span>Creating account...</span>
+          } @else {
+            <span>Sign Up</span>
+          }
+        </button>
+      </form>
+
+      <!-- Sign In Link -->
+      <div class="mt-6 text-center">
+        <p class="text-slate-400 text-sm">
+          Already have an account?
+          <a routerLink="/auth/signin" class="text-violet-400 hover:text-violet-300 font-medium">
+            Sign in
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

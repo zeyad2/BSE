@@ -1,0 +1,131 @@
+<div class="container mx-auto px-4 py-12 max-w-7xl">
+  <!-- Header with Create Button -->
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-4xl font-bold text-slate-100">Manage Blog Posts</h1>
+    <a
+      routerLink="/admin/create"
+      class="px-6 py-3 bg-violet-600 text-white rounded-lg font-semibold
+             hover:bg-violet-500 transition-colors inline-flex items-center gap-2"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+      </svg>
+      Create New Post
+    </a>
+  </div>
+
+  <app-error-message [message]="blogService.error()" />
+
+  <!-- Loading State -->
+  @if (blogService.isLoading()) {
+    <app-loading-spinner [size]="60" containerClass="py-20" />
+  }
+  <!-- Loaded: Show Table -->
+  @else if (blogService.blogs().length > 0) {
+    <!-- Desktop Table -->
+    <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden mb-8 hidden md:block">
+      <table class="w-full">
+        <thead class="bg-slate-900 border-b border-slate-700">
+          <tr>
+            <th class="px-6 py-4 text-left text-sm font-semibold text-slate-300">Title</th>
+            <th class="px-6 py-4 text-left text-sm font-semibold text-slate-300">Author</th>
+            <th class="px-6 py-4 text-left text-sm font-semibold text-slate-300">Images</th>
+            <th class="px-6 py-4 text-right text-sm font-semibold text-slate-300">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (blog of blogService.blogs(); track blog.id) {
+            <tr class="border-b border-slate-700 last:border-0 hover:bg-slate-700/50 transition-colors">
+              <td class="px-6 py-4">
+                <div class="text-slate-100 font-medium">{{ blog.title }}</div>
+                <div class="text-slate-400 text-sm mt-1 line-clamp-1">{{ blog.excerpt }}</div>
+              </td>
+              <td class="px-6 py-4 text-slate-300">{{ blog.authorName }}</td>
+              <td class="px-6 py-4 text-slate-300">{{ blog.images.length }}</td>
+              <td class="px-6 py-4">
+                <div class="flex items-center justify-end gap-2">
+                  <!-- Edit Button -->
+                  <a
+                    [routerLink]="['/admin/edit', blog.id]"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium
+                           hover:bg-blue-500 transition-colors"
+                  >
+                    Edit
+                  </a>
+                  <!-- Delete Button -->
+                  <button
+                    (click)="confirmDelete(blog)"
+                    [disabled]="deletingBlogId() === blog.id"
+                    class="px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium
+                           hover:bg-red-500 disabled:opacity-50 transition-colors"
+                  >
+                    @if (deletingBlogId() === blog.id) {
+                      <span>Deleting...</span>
+                    } @else {
+                      <span>Delete</span>
+                    }
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile Cards -->
+    <div class="md:hidden space-y-4 mb-8">
+      @for (blog of blogService.blogs(); track blog.id) {
+        <div class="bg-slate-800 rounded-xl border border-slate-700 p-6">
+          <h3 class="text-lg font-semibold text-slate-100 mb-2">{{ blog.title }}</h3>
+          <p class="text-slate-400 text-sm mb-4 line-clamp-2">{{ blog.excerpt }}</p>
+          <div class="flex items-center gap-2 text-sm text-slate-400 mb-4">
+            <span>By {{ blog.authorName }}</span>
+            <span>•</span>
+            <span>{{ blog.images.length }} images</span>
+          </div>
+          <div class="flex gap-2">
+            <a
+              [routerLink]="['/admin/edit', blog.id]"
+              class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium
+                     hover:bg-blue-500 transition-colors text-center"
+            >
+              Edit
+            </a>
+            <button
+              (click)="confirmDelete(blog)"
+              [disabled]="deletingBlogId() === blog.id"
+              class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-medium
+                     hover:bg-red-500 disabled:opacity-50 transition-colors"
+            >
+              {{ deletingBlogId() === blog.id ? 'Deleting...' : 'Delete' }}
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Pagination -->
+    <app-pagination
+      [currentPage]="blogService.currentPage()"
+      [totalPages]="blogService.totalPages()"
+      [hasNext]="blogService.hasNextPage()"
+      [hasPrevious]="blogService.hasPreviousPage()"
+      (next)="blogService.nextPage()"
+      (previous)="blogService.previousPage()"
+    />
+  }
+  <!-- Empty State -->
+  @else {
+    <div class="text-center py-20 text-slate-400">
+      <p class="text-xl mb-4">No blog posts yet</p>
+      <a
+        routerLink="/admin/create"
+        class="inline-block px-6 py-3 bg-violet-600 text-white rounded-lg font-semibold
+               hover:bg-violet-500 transition-colors"
+      >
+        Create Your First Post
+      </a>
+    </div>
+  }
+</div>

@@ -1,0 +1,54 @@
+<div class="container mx-auto px-4 py-12 max-w-7xl">
+  <!-- Back Button -->
+  <a
+    routerLink="/blog"
+    class="inline-flex items-center gap-2 text-violet-400 hover:text-violet-300 mb-8 transition-colors"
+  >
+    ← Back to Blog
+    
+  </a>
+
+  <!-- Error State -->
+  <app-error-message [message]="error()" />
+
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <app-loading-spinner [size]="60" containerClass="py-20" />
+  }
+  <!-- Loaded: Show Blog Post -->
+  @else if (blog()) {
+    <article class="max-w-4xl mx-auto">
+      <!-- Title -->
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-100 mb-4">
+        {{ blog()!.title }}
+      </h1>
+
+      <!-- Author Info -->
+      <div class="text-slate-400 mb-8 pb-8 border-b border-slate-700">
+        <span>By {{ blog()!.authorName }}</span>
+      </div>
+
+      <!-- Content -->
+      <div class="prose prose-invert prose-lg max-w-none mb-8">
+        <p class="text-slate-300 leading-relaxed whitespace-pre-wrap">
+          {{ blog()!.content }}
+        </p>
+      </div>
+
+      <!-- All Blog Images -->
+      @if (blog()!.images.length > 0) {
+        <div class="grid gap-6 mb-8">
+          @for (image of blog()!.images; track image.id) {
+            <div class="rounded-xl overflow-hidden bg-slate-800">
+              <img
+                [src]="image.url"
+                [alt]="image.altText"
+                class="w-full object-cover"
+              />
+            </div>
+          }
+        </div>
+      }
+    </article>
+  }
+</div>
