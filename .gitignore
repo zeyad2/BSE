@@ -151,14 +151,17 @@ log/
 # Others
 *.dbmdl
 *.jfm
+.playwright-mcp
 *.pfx
 *.p12
 *.crl
+FRONTEND_DOCUMENTATION.md
 *.cer
 
 # IIS Express
 iisexpress/
 *.vspscc
+.claude/
 *_i.c
 *_p.c
 *_h.h

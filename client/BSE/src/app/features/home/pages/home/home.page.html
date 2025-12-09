@@ -12,12 +12,16 @@
     <!-- Services Section -->
     <section id="services" class="py-20 bg-slate-900 animate-on-scroll" #servicesSection>
         <app-services [services]="services"></app-services>
+        <app-particle-background />
+
     </section>
 
 
     <section id="partners" class="py-20 bg-slate-900 animate-on-scroll" #servicesSection>
         <app-partners class="animate-on-scroll" [PARTNERS]="PARTNERS"
             [RESPONSIVE_OPTIONS]="RESPONSIVE_OPTIONS"></app-partners>
+            <app-particle-background />
+
 
     </section>
 
@@ -26,6 +30,8 @@
     <section id="benefits" class="py-20 bg-slate-900 animate-on-scroll" #servicesSection>
 
         <app-benefits class="animate-on-scroll" [benefits]="benefits" [stats]="stats"></app-benefits>
+        <app-particle-background />
+
     </section>
 
     <section id="banner">
@@ -36,21 +42,21 @@
 
         <section id="about" class="py-20 bg-slate-900 animate-on-scroll" #servicesSection>
             <app-about [aboutItems]="aboutItems"></app-about>
+            <app-particle-background />
+
 
         </section>
-
-
         
         <section id="testimonials" class="py-20 bg-slate-900 animate-on-scroll" #servicesSection>
             <app-testimonials [testimonials]="testimonials" [RESPONSIVE_OPTIONS]="RESPONSIVE_OPTIONS"></app-testimonials>
+            <app-particle-background />
+
 
         </section>
 
+        <section id="insights" class="py-20 bg-slate-900 animate-on-scroll" #insightsSection>
+            <app-particle-background />
 
-    
-
-
-        <section id="insights" class="py-20 bg-slate-900 animate-on-scroll" #servicesSection>
             <app-insights></app-insights>
 
         </section>
