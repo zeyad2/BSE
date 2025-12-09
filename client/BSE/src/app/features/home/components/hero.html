@@ -2,22 +2,33 @@
             <div class="grid md:grid-cols-2 gap-12 items-center ml-5">
                 <div class="space-y-6">
                     <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight animate-fade-in-up">
-                        Integrated Web
+                        Transform your
+                        <span class="inline-block relative h-[1.1em] md:h-[1.3em] overflow-hidden align-middle min-w-[180px] md:min-w-[320px] text-center animated-word-container">
+                            @for (word of words; track $index) {
+                                <span
+                                    class="absolute inset-x-0 text-transparent bg-clip-text bg-gradient-to-r from-[#F6A029] to-[#d88a1f]"
+                                    [class.slide-word-active]="$index === currentWordIndex()"
+                                >
+                                    {{ word }}
+                                </span>
+                            }
+                        </span>
+                        <br />
+                        with Integrated
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#F6A029] to-[#d88a1f]">
                             ERP Solutions
                         </span>
                     </h1>
                     <p class="text-xl text-slate-300 leading-relaxed animate-fade-in-up animation-delay-200">
-                        Software company delivering integrated ERP solutions with full tax compliance support and
-                        dedicated 24/7 customer service.
+                        Comprehensive ERP platform with seamless tax integration, real-time insights, and 24/7 expert support to drive your success.
                     </p>
                     <div class="flex gap-4 animate-fade-in-up animation-delay-400">
                         <a routerLink="/blog"
-                            class="px-8 py-3 bg-[#F6A029] hover:bg-[#d88a1f] text-white font-semibold rounded-lg transition-all hover:scale-105">
+                            class="px-8 py-3 bg-[#F6A029] cursor-pointer hover:bg-[#d88a1f] text-white font-semibold rounded-lg transition-all hover:scale-105">
                             Explore Solutions
                         </a>
                         <a routerLink="/auth/signup"
-                            class="px-8 py-3 border-2 border-[#F6A029] text-[#F6A029] hover:bg-[#F6A029] hover:text-white font-semibold rounded-lg transition-all hover:scale-105">
+                            class="px-8 py-3 border-2 cursor-pointer border-[#F6A029] text-[#F6A029] hover:bg-[#F6A029] hover:text-white font-semibold rounded-lg transition-all hover:scale-105">
                             Get Started
                         </a>
                     </div>
